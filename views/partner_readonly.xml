@@ -17,6 +17,12 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
+                <field name="company_type"  position="attributes">
+                    <attribute name="attrs">{'readonly': [('in_beta','=',True)]}</attribute>
+                </field>
+                <field name="vat" position="attributes">
+                    <attribute name="attrs">{'required': [('is_company','=',True)], 'readonly': [('is_company','=',True),('in_beta','=',True)]}</attribute>
+                </field>
                 <field name="vat" position="attributes">
                     <attribute name="attrs">{'required': [('is_company','=',True)], 'readonly': [('is_company','=',True),('in_beta','=',True)]}</attribute>
                 </field>
