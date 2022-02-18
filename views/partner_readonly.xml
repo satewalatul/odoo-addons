@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+
+        <record id="view_partner_form_in_beta_inherit" model="ir.ui.view">
+            <field name="name">res.partner.in_beta.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="vat" position="after">
+                    <field name="in_beta" readonly="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_partner_form_vat_inherit" model="ir.ui.view">
+            <field name="name">res.partner.vat.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="vat" position="attributes">
+                    <attribute name="attrs">{'required': [('is_company','=',True)], 'readonly': [('is_company','=',True),('in_beta','=',True)]}</attribute>
+                </field>
+                <field id="company" name="name" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_company','=',True),('in_beta','=',True)]}</attribute>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
