@@ -8,20 +8,8 @@
             <field name="inherit_id" ref="crm.crm_lead_view_form"/>
             <field name="arch" type="xml">
                 <field name="partner_id" position="after">
-                    <field name="in_beta" invisible="1"/>
+                    <field name="in_beta"/>
                 </field>
-            </field>
-        </record>
-
-          <record  model="ir.ui.view" id="crm_lead_inherit">
-            <field name="name">crm.lead.inherit</field>
-            <field name="model">crm.lead</field>
-            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
-            <field name="arch" type="xml">
-                <button name="action_set_lost" position="after">
-                    <button name="button_function" string="To Beta" type="object" class="btn-primary"  title="Send to beta"
-                            attrs="{'invisible': ['|', ('stage_id', '!=', 1), ('in_beta', '=', True)]}"/>
-                </button>
             </field>
         </record>
     </data>
