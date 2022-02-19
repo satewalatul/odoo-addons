@@ -21,14 +21,11 @@
                     <attribute name="attrs">{'readonly': [('in_beta','=',True)]}</attribute>
                 </field>
                 <field name="vat" position="attributes">
-                    <attribute name="attrs">{'required': [('is_company','=',True)], 'readonly': [('is_company','=',True),('in_beta','=',True)]}</attribute>
-                </field>
-                <field name="vat" position="attributes">
-                    <attribute name="attrs">{'required': [('is_company','=',True)], 'readonly': [('is_company','=',True),('in_beta','=',True)]}</attribute>
-                </field>
-                <field id="company" name="name" position="attributes">
                     <attribute name="attrs">{'readonly': [('is_company','=',True),('in_beta','=',True)]}</attribute>
                 </field>
+                <xpath expr="//field[@id='company']" position="attributes">
+                    <attribute name="attrs">{'required' : [('type', '=', 'contact'),('is_company', '=', True)], 'invisible': [('is_company','=', False)], 'readonly': [('in_beta','=',True)]}</attribute>
+                </xpath>
             </field>
         </record>
     </data>
