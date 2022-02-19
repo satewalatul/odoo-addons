@@ -22,11 +22,7 @@ class CrmLead(models.Model):
         partner_json = self.partner_id.read()
         data = {"partner": partner_json}
 
-        _logger.warning("Payload:  " + str(data))
-
         payload = json.dumps(data, default=date_utils.json_default)
-
-        _logger.warning("Payload:  " + payload)
 
         url = "https://youngmanbeta.com/storeOdooCustomer/"
 
@@ -36,16 +32,16 @@ class CrmLead(models.Model):
 
         _logger.warning("About to make request")
 
-        response = requests.request("POST", url, headers=headers, data=payload)
-        response_body = json.loads(response.json())
+        response = requests.request("POST", url, headers=headers, data=payload, verify=False)
+
+        _logger.warning("Response: " + response.text)
+
+        response_body = response.json()
 
         if response.status_code == 201 and response_body['status'] == "success":
             self.in_beta = True
             self.partner_id.in_beta = True
-            _logger.warning("CrmLead: " + response.json())
+            _logger.warning("CrmLead: " + response.text)
         else:
-            _logger.error("CrmLead: " + response.json())
-            return {
-                'warning': {'title': 'Warning',
-                            'message': 'Failed to send Lead data to Beta', },
-            }
+            _logger.error("CrmLead: " + response.text)
+            raise Exception("Failed to create Customer: Status=" + str(response.status_code) + " Body: " + response.text )
