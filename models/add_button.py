@@ -22,11 +22,17 @@ class CrmLead(models.Model):
         partner_json = self.partner_id.read()
         lead_json = self.read()
 
-        data_set = {"partner": partner_json, "lead": lead_json}
+        payload = json.dumps({"partner": partner_json, "lead": lead_json}, default=date_utils.json_default)
 
-        _logger.warning("Partner id"+ json.dumps(data_set, default=date_utils.json_default))
+        _logger.warning("Payload: "+ payload)
 
-        response = requests.post('https://3c7b-103-206-129-194.ngrok.io/storeOdooCustomer', data_set)
+        url = "https://3c7b-103-206-129-194.ngrok.io/storeOdooCustomer"
+
+        headers = {
+            'Content-Type': 'application/json'
+        }
+
+        response = requests.request("POST", url, headers=headers, data=payload)
         response_body = json.loads(response.json())
 
         if response.status_code == 201 and response_body['status'] == "success":
