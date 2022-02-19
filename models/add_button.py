@@ -26,7 +26,7 @@ class CrmLead(models.Model):
 
         _logger.warning("Payload: "+ payload)
 
-        url = "https://3c7b-103-206-129-194.ngrok.io/storeOdooCustomer"
+        url = "https://youngmanbeta.com/storeOdooCustomer/"
 
         headers = {
             'Content-Type': 'application/json'
