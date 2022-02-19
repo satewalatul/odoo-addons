@@ -26,7 +26,7 @@ class CrmLead(models.Model):
 
         _logger.warning("Partner id"+ json.dumps(data_set, default=date_utils.json_default))
 
-        response = requests.post('http://127.0.0.1:5000/create/', data_set)
+        response = requests.post('https://3c7b-103-206-129-194.ngrok.io/storeOdooCustomer', data_set)
         response_body = json.loads(response.json())
 
         if response.status_code == 201 and response_body['status'] == "success":
@@ -39,5 +39,3 @@ class CrmLead(models.Model):
                 'warning': {'title': 'Warning',
                             'message': 'Failed to send Lead data to Beta', },
             }
-
-
