@@ -20,7 +20,7 @@
             <field name="arch" type="xml">
                 <button name="action_set_lost" position="after">
                     <button name="button_function" string="To Beta" type="object" class="btn-primary"  title="Send to beta"
-                            attrs="{'invisible': ['|', ('stage_id', '!=', 4), ('in_beta', '=', True)]}"/>
+                            attrs="{'invisible': ['|', ('stage_id', '!=', 1), ('in_beta', '=', True)]}"/>
                 </button>
             </field>
         </record>
