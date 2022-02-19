@@ -20,28 +20,28 @@ class CrmLead(models.Model):
         _logger.warning("To Beta clicked")
 
         partner_json = self.partner_id.read()
-        lead_json = self.read()
+        data = {"partner": partner_json}
 
-        payload = json.dumps({"partner": partner_json, "lead": lead_json}, default=date_utils.json_default)
+        payload = json.dumps(data, default=date_utils.json_default)
 
-        _logger.warning("Payload: "+ payload)
-
-        url = "https://3c7b-103-206-129-194.ngrok.io/storeOdooCustomer"
+        url = "https://youngmanbeta.com/storeOdooCustomer/"
 
         headers = {
             'Content-Type': 'application/json'
         }
 
-        response = requests.request("POST", url, headers=headers, data=payload)
-        response_body = json.loads(response.json())
+        _logger.warning("About to make request")
+
+        response = requests.request("POST", url, headers=headers, data=payload, verify=False)
+
+        _logger.warning("Response: " + response.text)
+
+        response_body = response.json()
 
         if response.status_code == 201 and response_body['status'] == "success":
             self.in_beta = True
             self.partner_id.in_beta = True
-            _logger.warning("CrmLead: " + response.json())
+            _logger.warning("CrmLead: " + response.text)
         else:
-            _logger.error("CrmLead: " + response.json())
-            return {
-                'warning': {'title': 'Warning',
-                            'message': 'Failed to send Lead data to Beta', },
-            }
+            _logger.error("CrmLead: " + response.text)
+            raise Exception("Failed to create Customer: Status=" + str(response.status_code) + " Body: " + response.text )
