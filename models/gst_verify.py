@@ -87,7 +87,7 @@ class Partner(models.Model):
     @api.onchange('vat')
     def do_stuff(self):
         try:
-            if not ((self.vat)) and not self.is_company:
+            if not ((self.vat)):
                 return
 
             if (len(self.vat) != 15):
