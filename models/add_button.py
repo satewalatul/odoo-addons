@@ -20,17 +20,21 @@ class CrmLead(models.Model):
         _logger.warning("To Beta clicked")
 
         partner_json = self.partner_id.read()
-        lead_json = self.read()
+        data = {"partner": partner_json}
 
-        payload = json.dumps({"partner": partner_json, "lead": lead_json}, default=date_utils.json_default)
+        _logger.warning("Payload:  " + str(data))
 
-        _logger.warning("Payload: "+ payload)
+        payload = json.dumps(data, default=date_utils.json_default)
+
+        _logger.warning("Payload:  " + payload)
 
         url = "https://youngmanbeta.com/storeOdooCustomer/"
 
         headers = {
             'Content-Type': 'application/json'
         }
+
+        _logger.warning("About to make request")
 
         response = requests.request("POST", url, headers=headers, data=payload)
         response_body = json.loads(response.json())
