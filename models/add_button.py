@@ -14,7 +14,7 @@ class CrmLead(models.Model):
     _name = 'crm.lead'
     _inherit = 'crm.lead'
 
-    in_beta = fields.Boolean(default=False, string="In Beta")
+    in_beta = fields.Boolean(default=False, string="Add Customer To Beta")
 
     def button_function(self):
         self.in_beta = True
