@@ -10,11 +10,14 @@ import logging
 
 class S3Attachment(models.Model):
     _inherit = 'ir.attachment'
-
-    # try:
-    resource = boto3.resource('s3')
-    # except BotoCoreError as exc:
-    #    logging.exception(repr(exc))
+    session = boto3.Session(
+        aws_access_key_id="",
+        aws_secret_access_key="",
+    )
+    try:
+        resource = session.resource('s3')
+    except BotoCoreError as exc:
+        logging.exception(repr(exc))
 
     bucket_name = 'youngman-odoo'
     database_bucket = resource.Bucket(bucket_name)
@@ -43,10 +46,10 @@ class S3Attachment(models.Model):
     @api.model
     def _file_write(self, bin_value, checksum):
         filename = str(uuid.uuid4())
-        # try:
-        self.resource.Object(self.bucket_name, key=filename).put(Body=bin_value)
+        try:
+            self.resource.Object(self.bucket_name, key=filename).put(Body=bin_value)
         #self.database_bucket.upload_fileobj(bin_value, filename)
 
-        # except Exception as exc:
-        #    logging.exception(repr(exc))
+        except Exception as exc:
+            logging.exception(repr(exc))
         return filename
