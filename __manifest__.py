@@ -17,7 +17,7 @@
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Uncategorized',
-    'version': '12.4',
+    'version': '14.2',
 
     # any module necessary for this one to work correctly
     'depends': ['base','crm', 'base_vat'],
@@ -29,8 +29,7 @@
         'views/crm_no_tag.xml',
         'views/partner_no_tag.xml',
         'views/partner_readonly.xml',
-        'views/send_to_beta.xml',
-        'views/crm_lead_fields_required.xml'
+        'views/send_to_beta.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
