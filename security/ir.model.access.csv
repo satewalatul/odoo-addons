@@ -1,2 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_youngman_youngman,youngman.youngman,model_youngman_youngman,base.group_user,1,1,1,1
+access_res_partner_channel_tag_group_user,res_partner_channel_tag group_user,model_res_partner_channel_tag,base.group_user,1,0,0,0
+access_res_partner_channel_tag_group_partner_manager,res_partner_channel_tag group_partner_manager,model_res_partner_channel_tag,base.group_partner_manager,1,1,1,1
+access_res_partner_bd_tag_group_user,res_partner_bd_tag group_user,model_res_partner_bd_tag,base.group_user,1,0,0,0
+access_res_partner_bd_tag_group_partner_manager,res_partner_bd_tag group_partner_manager,model_res_partner_bd_tag,base.group_partner_manager,1,1,1,1
