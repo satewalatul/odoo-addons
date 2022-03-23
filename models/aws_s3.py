@@ -11,8 +11,8 @@ import logging
 class S3Attachment(models.Model):
     _inherit = 'ir.attachment'
     session = boto3.Session(
-        aws_access_key_id="",
-        aws_secret_access_key="",
+        aws_access_key_id="AKIAXSABW3GRECPISIQT",
+        aws_secret_access_key="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",
     )
     try:
         resource = session.resource('s3')
