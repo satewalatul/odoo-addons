@@ -2,12 +2,16 @@
     <data>
 
         <record id="view_partner_form_in_beta_inherit" model="ir.ui.view">
-            <field name="name">res.partner.in_beta.inherit</field>
+            <field name="name">res.partner.youngman.inherit</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
                 <field name="vat" position="after">
                     <field name="in_beta" readonly="1"/>
+                </field>
+                <field name="category_id" position="after">
+                    <field name="channel_tag_ids" widget="many2many_tags" placeholder="Channel Tags..." attrs="{'invisible': [('is_company','=', False)]}"/>
+                    <field name="bd_tag_ids" widget="many2many_tags" placeholder="BD Tags..." attrs="{'invisible': [('is_company','=', False)]}"/>
                 </field>
             </field>
         </record>
@@ -42,17 +46,6 @@
                   </field>
                 <field name="property_payment_term_id"  position="attributes">
                     <attribute name="attrs">{'readonly': [('is_company','=',False)]}</attribute>
-                </field>
-            </field>
-        </record>
-
-        <record id="res_partner_tags_inherit" model="ir.ui.view">
-            <field name="name">res.partner.tags.inherit</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
-            <field name="arch" type="xml">
-                <field name="category_id" position="after">
-                    <field name="channel_id" widget="many2many_tags" placeholder="Channel Tags..." attrs="{'invisible': [('is_company','=', False)]}"/>
                 </field>
             </field>
         </record>
