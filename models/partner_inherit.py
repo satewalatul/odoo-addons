@@ -2,10 +2,12 @@
 
 from odoo import models, fields, api
 from random import randint
-
+import logging
 from odoo import api, fields, models, _
 
 from odoo.exceptions import ValidationError
+
+_logger = logging.getLogger(__name__)
 
 class PartnerInherit(models.Model):
     _name = 'res.partner'
@@ -24,6 +26,32 @@ class PartnerInherit(models.Model):
     bd_tag_ids = fields.Many2many('res.partner.bd.tag', column1='partner_id',
                                        column2='bd_tag_id', string='BD Tags', default=_default_channel_tag)
 
+    bd_tag_user_ids = fields.One2many('contact.team.users', 'contact_id', string='Contact Team Users', help="Users having this BD Tag as team name")
+
+    @api.onchange('bd_tag_ids')
+    def _onchange_bd_tag_ids(self):
+        _logger.error("called _onchange_bd_tag_ids")
+        _logger.error(str(self.id) + " has " + str(len(self.bd_tag_user_ids)))
+        self._cr.execute('delete from contact_team_users where contact_id = %s', [self._origin.id])
+        _logger.error(str(self.id) + " has " + str(len(self.bd_tag_user_ids)))
+
+        for bd_tag in self.bd_tag_ids:
+            users = self.env['res.users'].sudo().search([('sale_team_id.name', 'ilike', bd_tag.name)])
+            _logger.error("For tag name " + str(bd_tag.name) + " " + str(len(users)) + " type " + str(type(self.bd_tag_user_ids)))
+            for user in users:
+                self._cr.execute('insert into contact_team_users (user_name, user_id, contact_id) values(%s, %s, %s)', ( user.name, user.id ,self._origin.id))
+
+
+    @api.onchange('property_payment_term_id')
+    def _onchange_property_payment_term_id(self):
+        new_payment_term = self.property_payment_term_id
+        linked_contacts = self.child_ids
+        _logger.error("called _onchange_property_payment_term_id")
+        for contact in linked_contacts:
+            _logger.error("updating ")
+            contact.property_payment_term_id = new_payment_term
+
+
     @api.model
     def view_header_get(self, view_id, view_type):
         if self.env.context.get('channel_tag_id'):
@@ -38,6 +66,14 @@ class PartnerInherit(models.Model):
             )
         return super().view_header_get(view_id, view_type)
 
+
+class ContactTeamUsers(models.Model):
+    _description = 'Contact Team Users'
+    _name = 'contact.team.users'
+
+    user_name = fields.Char(string = "User Name")
+    user_id = fields.Integer(string = "User Id")
+    contact_id = fields.Many2one('res.partner', string="Contact")
 
 class PartnerChannelTag(models.Model):
     _description = 'Partner Channel'
