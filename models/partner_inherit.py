@@ -42,6 +42,24 @@ class PartnerInherit(models.Model):
                 self._cr.execute('insert into contact_team_users (user_name, user_id, contact_id) values(%s, %s, %s)', ( user.name, user.id ,self._origin.id))
 
 
+    @api.onchange('user_id')
+    def _onchange_salesperson(self):
+        new_user_id = self.user_id
+        linked_contacts = self.child_ids
+        _logger.error("called _onchange_user_id")
+        for contact in linked_contacts:
+            _logger.error("updating ")
+            contact.user_id = new_user_id
+
+    @api.onchange('team_id')
+    def _onchange_salesteam(self):
+        new_team_id = self.team_id
+        linked_contacts = self.child_ids
+        _logger.error("called _onchange_team_id")
+        for contact in linked_contacts:
+            _logger.error("updating ")
+            contact.team_id = new_team_id
+
     @api.onchange('property_payment_term_id')
     def _onchange_property_payment_term_id(self):
         new_payment_term = self.property_payment_term_id
@@ -50,7 +68,6 @@ class PartnerInherit(models.Model):
         for contact in linked_contacts:
             _logger.error("updating ")
             contact.property_payment_term_id = new_payment_term
-
 
     @api.model
     def view_header_get(self, view_id, view_type):
