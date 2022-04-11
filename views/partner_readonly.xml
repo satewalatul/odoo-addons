@@ -33,21 +33,6 @@
             </field>
         </record>
 
-        <record id="res_partner_sales_inherit" model="ir.ui.view">
-            <field name="name">res.partner.sales.inherit</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//page[@name='sales_purchases']/group/group/field[@name='user_id']"  position="attributes">
-                    <attribute name="attrs">{'readonly': [('is_company','=',False)]}</attribute>
-                </xpath>
-                <field name="team_id"  position="attributes">
-                    <attribute name="attrs">{'readonly': [('is_company','=',False)]}</attribute>
-                  </field>
-                <field name="property_payment_term_id"  position="attributes">
-                    <attribute name="attrs">{'readonly': [('is_company','=',False)]}</attribute>
-                </field>
-            </field>
-        </record>
+
     </data>
 </odoo>

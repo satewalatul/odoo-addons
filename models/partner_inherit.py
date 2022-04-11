@@ -36,11 +36,10 @@ class PartnerInherit(models.Model):
         _logger.error(str(self.id) + " has " + str(len(self.bd_tag_user_ids)))
 
         for bd_tag in self.bd_tag_ids:
-            users = self.env['res.users'].sudo().search([('sale_team_id.name', 'ilike', bd_tag.name)])
+            users = self.env['res.users'].sudo().search(['|', ('sale_team_id.name', 'ilike', bd_tag.name), ('groups_id.name','=','User: All Documents')])
             _logger.error("For tag name " + str(bd_tag.name) + " " + str(len(users)) + " type " + str(type(self.bd_tag_user_ids)))
             for user in users:
                 self._cr.execute('insert into contact_team_users (user_name, user_id, contact_id) values(%s, %s, %s)', ( user.name, user.id ,self._origin.id))
-
 
     @api.onchange('user_id')
     def _onchange_salesperson(self):
@@ -48,8 +47,8 @@ class PartnerInherit(models.Model):
         linked_contacts = self.child_ids
         _logger.error("called _onchange_user_id")
         for contact in linked_contacts:
-            _logger.error("updating ")
-            contact.user_id = new_user_id
+            _logger.error("updating res_partner user id = " + str(new_user_id.id) + " for user " + str(contact._origin.id))
+            self._cr.execute('update res_partner set user_id = %s where id = %s', (new_user_id.id, contact._origin.id))
 
     @api.onchange('team_id')
     def _onchange_salesteam(self):
@@ -57,8 +56,8 @@ class PartnerInherit(models.Model):
         linked_contacts = self.child_ids
         _logger.error("called _onchange_team_id")
         for contact in linked_contacts:
-            _logger.error("updating ")
-            contact.team_id = new_team_id
+            _logger.error("updating res_partner team id = " + str(new_team_id.id) + " for user " + str(contact._origin.id))
+            self._cr.execute('update res_partner set team_id = %s where id = %s', (new_team_id.id, contact._origin.id))
 
     @api.onchange('property_payment_term_id')
     def _onchange_property_payment_term_id(self):
@@ -66,8 +65,9 @@ class PartnerInherit(models.Model):
         linked_contacts = self.child_ids
         _logger.error("called _onchange_property_payment_term_id")
         for contact in linked_contacts:
-            _logger.error("updating ")
+            _logger.error("updating " + contact.name)
             contact.property_payment_term_id = new_payment_term
+
 
     @api.model
     def view_header_get(self, view_id, view_type):
