@@ -18,12 +18,14 @@
     # for the full list
     'category': 'Uncategorized',
     'version': '14.4',
+    'version': '18.2',
     # any module necessary for this one to work correctly
     'depends': ['base','crm'],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/base_security.xml',
+        'security/ir.model.access.csv',
         'views/lead_lost_no_tag.xml',
         'views/crm_no_tag.xml',
         'views/partner_no_tag.xml',
