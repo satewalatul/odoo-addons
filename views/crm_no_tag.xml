@@ -12,5 +12,29 @@
               </field>
           </field>
       </record>
+
+      <record  model="ir.ui.view" id="crm_opportunity_inherit">
+          <field name="name">crm.opportunity.inherit</field>
+          <field name="model">crm.lead</field>
+          <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+          <field name="arch" type="xml">
+              <field name="tag_ids" position="after">
+                    <field name="job_order" attrs="{'invisible': [('type','=', 'lead')]}"/>
+              </field>
+          </field>
+<!--          <button name="action_set_won_rainbowman" position="attributes">-->
+<!--              <attribute name="attrs">-->
+<!--                  {'invisible': [('job_order','=', False)]}-->
+<!--              </attribute>-->
+<!--          </button>-->
+<!--          <button name="action_set_won_rainbowman" string="Won" type="object" attrs="{'invisible':'1'}" class="oe_highlight" />-->
+<!--          <xpath expr="//button[@name='action_set_won_rainbowman']" position="attributes">-->
+<!--              <attribute name="attrs">-->
+<!--                  {'invisible': [('job_order','=', False)]}-->
+<!--              </attribute>-->
+<!--          </xpath>-->
+      </record>
+
+
   </data>
 </odoo>
