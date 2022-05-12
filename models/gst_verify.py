@@ -120,9 +120,15 @@ class Partner(models.Model):
             _logger.warning(gst_data)
 
             if self.is_company:
-                self.name = gst_data["data"]["lgnm"]
+                if self.vat[5] == 'C' or self.vat[5] == 'c':
+                    self.name = gst_data["data"]["lgnm"]
+                else:
+                    if len(gst_data["data"]["tradeNam"]) == 0:
+                        self.name = gst_data["data"]["lgnm"]
+                    else:
+                        self.name = gst_data["data"]["tradeNam"]
 
-            self.street =  gst_data["data"]["pradr"]["addr"]["bno"] + gst_data["data"]["pradr"]["addr"]["bnm"]
+            self.street = gst_data["data"]["pradr"]["addr"]["bno"] + gst_data["data"]["pradr"]["addr"]["bnm"]
             self.street2 = gst_data["data"]["pradr"]["addr"]["st"]
             self.city = gst_data["data"]["pradr"]["addr"]["city"]
             self.zip = str(gst_data["data"]["pradr"]["addr"]["pncd"]) if gst_data["data"]["pradr"]["addr"]["pncd"] is not None else None
