@@ -121,8 +121,10 @@ class Partner(models.Model):
 
             if self.is_company:
                 if self.vat[5] == 'C' or self.vat[5] == 'c':
+                    _logger.error("IF CONDITION: " + str(self.vat) + " " + str(gst_data["data"]["lgnm"]))
                     self.name = gst_data["data"]["lgnm"]
                 else:
+                    _logger.error("ELSE CONDITION: " + str(self.vat) + " " + str(gst_data["data"]["tradeNam"]))
                     if len(gst_data["data"]["tradeNam"]) == 0:
                         self.name = gst_data["data"]["lgnm"]
                     else:
